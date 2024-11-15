@@ -1,0 +1,173 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8282
+  description: Generated server url
+paths:
+  /students:
+    post:
+      tags:
+      - student-controller
+      operationId: createStudent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudentRequestDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/StudentResponseDto"
+  /enrollments:
+    post:
+      tags:
+      - enrollment-controller
+      operationId: createEnrollment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnrollmentRequestDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EnrollmentResponseDto"
+  /courses:
+    post:
+      tags:
+      - course-controller
+      operationId: createCourse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CourseRequestDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CourseResponseDto"
+  /students/{studentId}/courses:
+    get:
+      tags:
+      - student-controller
+      operationId: getCoursesByStudentId
+      parameters:
+      - name: studentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CourseResponseDto"
+  /courses/{courseId}/students:
+    get:
+      tags:
+      - course-controller
+      operationId: getStudentsByCourseId
+      parameters:
+      - name: courseId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StudentResponseDto"
+components:
+  schemas:
+    StudentRequestDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+    StudentResponseDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        description:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+    EnrollmentRequestDto:
+      type: object
+      properties:
+        studentId:
+          type: integer
+          format: int32
+        courseId:
+          type: integer
+          format: int32
+        registrationDate:
+          type: string
+          format: date-time
+    EnrollmentResponseDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        registrationDate:
+          type: string
+          format: date-time
+    CourseRequestDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+    CourseResponseDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        description:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
